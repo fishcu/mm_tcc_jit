@@ -18,11 +18,11 @@ target_include_directories(tinycc INTERFACE ${TINYCC_SOURCE_DIR})
 target_link_libraries(tinycc INTERFACE pthread dl)
 
 add_executable(${PROJECT_NAME}
-    "main.cpp"
+    "main.c"
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED YES
+    # CXX_STANDARD 17
+    # CXX_STANDARD_REQUIRED YES
     POSITION_INDEPENDENT_CODE ON
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE tinycc)

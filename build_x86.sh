@@ -1,4 +1,6 @@
 #!/bin/bash
 set -e
-cmake . -DBUILD_FOR_MM=OFF -B build_x86
-cmake --build build_x86
+
+mkdir -p build_x86
+cmake . -B build_x86
+cmake --build build_x86 --verbose
