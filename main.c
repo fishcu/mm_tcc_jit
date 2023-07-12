@@ -2,13 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef BUILD_FOR_MM
-// #define TCC_CPU_VERSION = 7
-// #define TCC_TARGET_ARM
-// #define TCC_ARM_EABI
-// #define TCC_ARM_HARDFLOAT
-// #define TCC_ARM_VFP
-#endif  // BUILD_FOR_MM
 #include "libtcc.h"
 
 void handle_tcc_error(void *opaque, const char *msg) {
@@ -42,29 +35,25 @@ int main(int argc, char *argv[]) {
     tcc_set_output_type(tcc, TCC_OUTPUT_MEMORY);
 
     const char *source =
-#ifdef BUILD_FOR_MM
-        // "#define TCC_CPU_VERSION = 7\n"
-        // "#define TCC_TARGET_ARM\n"
-        // "#define TCC_ARM_EABI\n"
-        // "#define TCC_ARM_HARDFLOAT\n"
-        // "#define TCC_ARM_VFP\n"
-#endif  // BUILD_FOR_MM
         "#include <math.h>\n"
         "float jit_sqrt(float x) {\n"
         "    return sqrt(x);\n"
         "}";
 
     if (tcc_compile_string(tcc, source) != 0) {
+        printf("Failed to compile!\n");
         tcc_delete(tcc);
         return 1;
     }
 
     if (tcc_add_library(tcc, "m") != 0) {
+        printf("Failed to add library!\n");
         tcc_delete(tcc);
         return 1;
     }
 
     if (tcc_relocate(tcc, TCC_RELOCATE_AUTO) != 0) {
+        printf("Failed to relocate!\n");
         tcc_delete(tcc);
         return 1;
     }
